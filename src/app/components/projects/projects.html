@@ -1,0 +1,80 @@
+<section id="projects" class="section-pad">
+  <div class="max-w-7xl mx-auto px-6 lg:px-12">
+
+    <div class="section-header reveal">
+      <span class="section-num font-mono-custom">03</span>
+      <h2 class="section-title font-display">Projects</h2>
+    </div>
+
+    <div class="projects-list">
+
+      @for (project of projects; track project.num) {
+        <div class="project-card card reveal">
+
+          <!-- Screenshot panel -->
+          <div class="project-screenshot">
+
+            @if (project.screenshots?.length) {
+
+              <img
+                class="shot-img"
+                [class.fading]="fadingOut[project.num]"
+                [src]="project.screenshots![currentIndex[project.num]]"
+                [alt]="project.name + ' screenshot'"
+              />
+
+              <div class="shot-nav">
+                <button class="shot-btn font-mono-custom" (click)="prev(project)" aria-label="Previous">&#8592;</button>
+
+                <div class="shot-dots">
+                  @for (shot of project.screenshots!; track $index) {
+                    <button
+                      class="shot-dot"
+                      [class.active]="$index === currentIndex[project.num]"
+                      (click)="goTo(project, $index)"
+                      [attr.aria-label]="'Screenshot ' + ($index + 1)"
+                    ></button>
+                  }
+                </div>
+
+                <button class="shot-btn font-mono-custom" (click)="next(project)" aria-label="Next">&#8594;</button>
+              </div>
+
+            } @else {
+              <div class="screenshot-pattern" aria-hidden="true"></div>
+              <span class="screenshot-label font-mono-custom">Screenshot</span>
+            }
+
+          </div>
+
+          <!-- Content panel -->
+          <div class="project-content">
+
+            <div class="project-top">
+              <span class="project-num font-mono-custom">{{ project.num }} / {{ projects.length < 10 ? '0' + projects.length : projects.length }}</span>
+              @if (project.status) {
+                <span class="badge-status font-mono-custom">{{ project.status }}</span>
+              }
+            </div>
+
+            <div class="project-heading">
+              <h3 class="project-name font-display">{{ project.name }}</h3>
+              <p class="project-sub font-mono-custom">{{ project.subtitle }}</p>
+            </div>
+
+            <div class="project-tags">
+              @for (tag of project.tags; track tag) {
+                <span class="tag font-mono-custom">{{ tag }}</span>
+              }
+            </div>
+
+            <p class="project-desc">{{ project.description }}</p>
+
+          </div>
+
+        </div>
+      }
+
+    </div>
+  </div>
+</section>

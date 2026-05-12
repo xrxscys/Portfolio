@@ -1,0 +1,41 @@
+<nav class="fixed top-0 left-0 right-0 z-50 nav-shell" [class.scrolled]="scrolled">
+  <div class="max-w-7xl mx-auto px-6 lg:px-12 h-14 flex items-center justify-between">
+
+    <a href="#hero" (click)="scrollTo($event,'hero')" class="logo-mark font-display text-cream font-medium tracking-widest text-sm uppercase select-none">
+      XC
+    </a>
+
+    <ul class="hidden md:flex items-center gap-8">
+      <li *ngFor="let item of navItems">
+        <a
+          [href]="'#' + item.id"
+          (click)="scrollTo($event, item.id)"
+          class="nav-link font-mono-custom text-xs tracking-widest uppercase"
+          [class.active]="activeSection === item.id"
+        >{{ item.label }}</a>
+      </li>
+    </ul>
+
+    <button
+      class="md:hidden flex flex-col gap-1.5 p-1"
+      (click)="menuOpen = !menuOpen"
+      aria-label="Toggle menu"
+    >
+      <span class="menu-bar" [class.open-top]="menuOpen"></span>
+      <span class="menu-bar" [class.open-mid]="menuOpen"></span>
+      <span class="menu-bar" [class.open-bot]="menuOpen"></span>
+    </button>
+  </div>
+
+  <div class="mobile-drawer md:hidden" [class.open]="menuOpen">
+    <ul class="flex flex-col gap-6 px-6 py-8">
+      <li *ngFor="let item of navItems">
+        <a
+          [href]="'#' + item.id"
+          (click)="scrollTo($event, item.id); menuOpen = false"
+          class="nav-link font-mono-custom text-xs tracking-widest uppercase"
+        >{{ item.label }}</a>
+      </li>
+    </ul>
+  </div>
+</nav>

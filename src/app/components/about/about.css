@@ -1,0 +1,645 @@
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4rem;
+  margin-top: 4rem;
+}
+
+@media (min-width: 768px) {
+  .about-grid {
+    grid-template-columns: 1.4fr 1fr;
+    gap: 6rem;
+    align-items: center;
+  }
+}
+
+/* ── About headline ── */
+.about-headline {
+  margin-top: 3.5rem;
+  margin-bottom: 4.5rem;
+}
+
+.about-hl-line {
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  font-weight: 300;
+  color: var(--text);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.about-hl-accent {
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  font-weight: 300;
+  color: var(--accent);
+  font-style: italic;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+/* ── Availability badge ── */
+.avail-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2rem;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid rgba(196, 30, 58, 0.3);
+  border-radius: 2px;
+  background: var(--accent-dim);
+}
+
+.avail-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+  animation: avail-pulse 2s ease-in-out infinite;
+}
+
+@keyframes avail-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.7); }
+}
+
+.avail-text {
+  font-size: 0.55rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.bio-text {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--text-muted);
+  max-width: 58ch;
+  margin-bottom: 1.5rem;
+  font-weight: 300;
+}
+
+.accent-word {
+  color: var(--text);
+  font-style: italic;
+}
+
+/* ── Card scene: perspective container ── */
+.about-aside {
+  display: flex;
+  justify-content: center;
+}
+
+.card-scene {
+  /* perspective lives here so tilt origin stays card-center */
+  display: inline-block;
+  cursor: none;
+}
+
+/* ── Education card ── */
+.edu-card {
+  position: relative;
+  width: 240px;
+  height: 330px;
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  border-radius: 8px;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.05) inset,
+    0 32px 64px -16px rgba(0,0,0,0.7);
+  /* All transform + opacity managed by GSAP */
+  will-change: transform, opacity;
+}
+
+/* ── Sheen / glare overlay ── */
+.card-sheen {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  border-radius: 8px;
+  /* blend with the card surface */
+  mix-blend-mode: screen;
+  transition: opacity 0.15s ease;
+  z-index: 3;
+}
+
+/* ── Playing card corner indices ── */
+.pc-index {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  z-index: 2;
+}
+
+.pc-index-tl { top: 12px; left: 12px; }
+.pc-index-br { bottom: 12px; right: 12px; transform: rotate(180deg); }
+
+.pc-idx-rank {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--text-dim);
+  line-height: 1;
+  letter-spacing: 0.05em;
+}
+
+/* ── Card inner layout ── */
+.edu-body {
+  position: relative;
+  z-index: 2;
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.card-label {
+  font-size: 0.55rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.edu-school {
+  font-size: 1.55rem;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+.edu-degree {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 300;
+}
+
+.edu-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+  margin-top: 0.25rem;
+}
+
+.edu-gwa {
+  font-size: 0.7rem;
+  color: var(--text);
+  letter-spacing: 0.08em;
+}
+
+.edu-year {
+  font-size: 0.62rem;
+  color: var(--text-dim);
+  letter-spacing: 0.12em;
+}
+
+/* ── Card background decoration ── */
+.edu-card::before {
+  content: '';
+  position: absolute;
+  top: -30px;
+  right: -30px;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(196,30,58,0.08) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── Subtle crosshatch on card back area ── */
+.edu-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      rgba(255,255,255,0.012) 0px,
+      rgba(255,255,255,0.012) 1px,
+      transparent 1px,
+      transparent 10px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(255,255,255,0.012) 0px,
+      rgba(255,255,255,0.012) 1px,
+      transparent 1px,
+      transparent 10px
+    );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── Currently block ── */
+.currently-block {
+  margin-top: 2.5rem;
+  padding: 1.25rem 1.5rem;
+  border-left: 2px solid var(--accent);
+  background: var(--accent-dim);
+  border-radius: 0 2px 2px 0;
+}
+
+.currently-label {
+  font-size: 0.55rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.currently-project {
+  font-size: 1.55rem;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.1;
+  margin-bottom: 0.3rem;
+  font-style: italic;
+}
+
+.currently-meta {
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+}
+
+/* ── What I Do section ── */
+.wid-section {
+  margin-top: 7rem;
+}
+
+.wid-header {
+  margin-bottom: 3rem;
+}
+
+.wid-label {
+  font-size: 0.55rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.wid-heading {
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 300;
+  color: var(--text);
+  line-height: 1;
+  font-style: italic;
+}
+
+/* ── Capability card grid — 2 col → 4 col ── */
+.wid-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+@media (min-width: 1024px) {
+  .wid-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+  }
+}
+
+/* ── Playing card style for each capability card ── */
+.cap-card {
+  position: relative;
+  height: 280px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  cursor: pointer;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.04) inset,
+    0 20px 48px -12px rgba(0,0,0,0.6);
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  will-change: transform;
+}
+
+.cap-card:hover {
+  border-color: var(--border-hi);
+  transform: translateY(-5px);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.06) inset,
+    0 28px 56px -12px rgba(0,0,0,0.7);
+}
+
+.cap-card:active {
+  transform: translateY(-2px) scale(0.99);
+}
+
+.cap-card:focus-visible {
+  outline: 1px solid var(--border-hi);
+  outline-offset: 3px;
+}
+
+/* Red radial glow top-right — same as edu-card */
+.cap-card::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(196,30,58,0.07) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Crosshatch pattern */
+.cap-pattern {
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      rgba(255,255,255,0.012) 0px,
+      rgba(255,255,255,0.012) 1px,
+      transparent 1px,
+      transparent 10px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(255,255,255,0.012) 0px,
+      rgba(255,255,255,0.012) 1px,
+      transparent 1px,
+      transparent 10px
+    );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Corner indices */
+.cap-corner {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.cap-tl { top: 12px; left: 12px; }
+.cap-br { bottom: 12px; right: 12px; transform: rotate(180deg); }
+
+.cap-rank {
+  font-size: 0.65rem;
+  font-weight: 400;
+  color: var(--text-dim);
+  line-height: 1;
+  letter-spacing: 0.05em;
+}
+
+/* Card body at bottom — same structure as edu-body */
+.cap-body {
+  position: relative;
+  z-index: 2;
+  padding: 1.25rem 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  border-top: 1px solid var(--border);
+  background: linear-gradient(to top, rgba(20,20,20,0.95) 0%, transparent 100%);
+}
+
+.cap-label {
+  font-size: 0.5rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.cap-title {
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: var(--text);
+  line-height: 1.15;
+  font-style: italic;
+}
+
+.cap-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  margin-top: 0.3rem;
+}
+
+.cap-tags li {
+  font-size: 0.47rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  background: rgba(255,255,255,0.05);
+  padding: 0.2rem 0.5rem;
+  border-radius: 2px;
+}
+
+/* ── Expanded overlay — always in DOM, GSAP controls opacity ── */
+.wid-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  opacity: 0;           /* GSAP animates this */
+  pointer-events: none; /* GSAP/JS enables after open animation */
+}
+
+/* Content inside is always interactive */
+.wid-expanded {
+  position: relative;
+  pointer-events: auto;
+  background: var(--surface);
+  border: 1px solid var(--border-hi);
+  border-radius: 8px;
+  max-width: 480px;
+  width: 100%;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.05) inset,
+    0 40px 80px -20px rgba(0,0,0,0.9);
+}
+
+/* Crosshatch — same pattern as hero card back */
+.wexp-pattern {
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      rgba(255,255,255,0.013) 0px,
+      rgba(255,255,255,0.013) 1px,
+      transparent 1px,
+      transparent 12px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(255,255,255,0.013) 0px,
+      rgba(255,255,255,0.013) 1px,
+      transparent 1px,
+      transparent 12px
+    );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Corner indices — same motif as hero card */
+.wexp-corner {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.wexp-tl { top: 14px; left: 14px; }
+.wexp-br { bottom: 14px; right: 14px; transform: rotate(180deg); }
+
+.wexp-rank {
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  line-height: 1;
+  letter-spacing: 0.05em;
+}
+
+/* Close button — top-right, clear of corner index */
+.wexp-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  font-size: 0.6rem;
+  color: var(--text-dim);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.4rem;
+  z-index: 3;
+  transition: color 0.15s ease;
+  line-height: 1;
+}
+
+.wexp-close:hover { color: var(--text); }
+
+/* Scrollable body — clears the TL corner index */
+.wexp-body {
+  position: relative;
+  z-index: 1;
+  padding: 3.25rem 2rem 2.5rem;
+  max-height: 80vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.wexp-label {
+  font-size: 0.52rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.wexp-title {
+  font-size: 2rem;
+  font-weight: 400;
+  color: var(--text);
+  line-height: 1.05;
+  font-style: italic;
+}
+
+.wexp-desc {
+  font-size: 0.875rem;
+  line-height: 1.85;
+  color: var(--text-muted);
+  font-weight: 300;
+}
+
+.wexp-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 0.25rem 0;
+}
+
+.wexp-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  padding-bottom: 1.5rem;
+}
+
+.wexp-tags li {
+  font-size: 0.52rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  background: var(--surface-hi);
+  padding: 0.3rem 0.65rem;
+  border-radius: 2px;
+}
+
+.wid-title {
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--text);
+  line-height: 1.1;
+  font-style: italic;
+}
+
+.wid-desc {
+  font-size: 0.82rem;
+  line-height: 1.75;
+  color: var(--text-muted);
+  font-weight: 300;
+  flex: 1;
+}
+
+.wid-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+  margin-top: auto;
+}
+
+.wid-tags li {
+  font-size: 0.52rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  background: var(--surface-hi);
+  padding: 0.3rem 0.65rem;
+  border-radius: 2px;
+}

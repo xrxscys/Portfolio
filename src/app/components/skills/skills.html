@@ -1,0 +1,30 @@
+<section id="skills" class="section-pad">
+  <div class="max-w-7xl mx-auto px-6 lg:px-12">
+
+    <div class="section-header reveal">
+      <span class="section-num font-mono-custom">03</span>
+      <h2 class="section-title font-display">Skills</h2>
+    </div>
+
+    <div class="skills-table">
+
+      @for (group of skillGroups; track group.num) {
+        <div class="skill-row reveal">
+
+          <div class="row-meta">
+            <span class="row-num font-mono-custom">{{ group.num }}</span>
+            <h3 class="row-label font-mono-custom">{{ group.label }}</h3>
+          </div>
+
+          <div class="tags-wrap">
+            @for (skill of group.skills; track skill) {
+              <span class="skill-tag font-mono-custom">{{ skill }}</span>
+            }
+          </div>
+
+        </div>
+      }
+
+    </div>
+  </div>
+</section>

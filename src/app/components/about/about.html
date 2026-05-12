@@ -1,0 +1,172 @@
+<section id="about" class="section-pad">
+  <div class="max-w-7xl mx-auto px-6 lg:px-12">
+
+    <div class="section-header reveal">
+      <span class="section-num font-mono-custom">01</span>
+      <h2 class="section-title font-display">About</h2>
+    </div>
+
+    <!-- Headline -->
+    <div class="about-headline">
+      <p class="about-hl-line font-display reveal">I build the whole thing,</p>
+      <p class="about-hl-accent font-display reveal">front to back.</p>
+    </div>
+
+    <!-- Bio + Education card -->
+    <div class="about-grid">
+
+      <div class="about-bio">
+
+        <div class="avail-badge reveal">
+          <span class="avail-dot"></span>
+          <span class="avail-text font-mono-custom">Open to opportunities</span>
+        </div>
+
+        <p class="bio-text reveal">
+          My primary professional work is <span class="accent-word">Ulta Hub</span>
+          at CSAM Philippines — a SaaS platform for Virtual Assistant workforce
+          management, currently in final testing before going live. I started as an intern
+          and moved into a project-based role as the platform scaled. Angular on the
+          front, ASP.NET Core on the back, SignalR in between — across a role-based
+          permissions system spanning 40+ modules, live geolocation via Azure Maps,
+          real-time timesheets, and a rich-text chat system backed by 9 real-time entities.
+        </p>
+        <p class="bio-text reveal">
+          Before that, I built <span class="accent-word">EduOps</span> — a school
+          management system for an actual institutional client during university.
+          Student financial ledgers, enrollment tracking, grading modules, a full
+          notification system with email and in-app delivery. It had to work for real
+          people depending on it.
+        </p>
+        <p class="bio-text reveal">
+          Recent graduate of the University of San Carlos — B.S. in Information
+          Technology, GWA 1.93 / 1.0. I work best when the problem has real stakes
+          and the team has high standards. Frontend-heavy, full-stack, or anywhere
+          clean architecture and precise UI both matter.
+        </p>
+
+
+      </div>
+
+      <div class="about-aside">
+        <div
+          class="card-scene"
+          (mousemove)="onMouseMove($event)"
+          (mouseleave)="onMouseLeave()"
+          #cardScene
+        >
+          <div class="edu-card card" #eduCard>
+
+            <div class="card-sheen" #cardSheen aria-hidden="true"></div>
+
+            <div class="pc-index pc-index-tl" aria-hidden="true">
+              <span class="pc-idx-rank font-display">U</span>
+              <svg width="8" height="8" viewBox="0 0 8 8"><polygon points="4,0 8,4 4,8 0,4" fill="var(--accent)" opacity="0.5"/></svg>
+            </div>
+            <div class="pc-index pc-index-br" aria-hidden="true">
+              <span class="pc-idx-rank font-display">U</span>
+              <svg width="8" height="8" viewBox="0 0 8 8"><polygon points="4,0 8,4 4,8 0,4" fill="var(--accent)" opacity="0.5"/></svg>
+            </div>
+
+            <div class="edu-body">
+              <span class="card-label font-mono-custom">Education</span>
+              <h3 class="edu-school font-display">University<br>of San Carlos</h3>
+              <p class="edu-degree">B.S. Information Technology</p>
+              <div class="edu-footer">
+                <span class="edu-year font-mono-custom">2026</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- What I Do -->
+    <div class="wid-section">
+
+      <div class="wid-header reveal">
+        <span class="wid-label font-mono-custom">Capabilities</span>
+        <h3 class="wid-heading font-display">What I do</h3>
+      </div>
+
+      <div class="wid-grid">
+        @for (card of cards; track card.id) {
+          <div class="cap-card" (click)="openCard(card.id)" role="button" tabindex="0">
+
+            <!-- Crosshatch pattern -->
+            <div class="cap-pattern" aria-hidden="true"></div>
+
+            <!-- Corner indices -->
+            <div class="cap-corner cap-tl" aria-hidden="true">
+              <span class="cap-rank font-display">{{ card.id }}</span>
+              <svg width="8" height="8" viewBox="0 0 8 8"><polygon points="4,0 8,4 4,8 0,4" fill="var(--accent)" opacity="0.5"/></svg>
+            </div>
+            <div class="cap-corner cap-br" aria-hidden="true">
+              <span class="cap-rank font-display">{{ card.id }}</span>
+              <svg width="8" height="8" viewBox="0 0 8 8"><polygon points="4,0 8,4 4,8 0,4" fill="var(--accent)" opacity="0.5"/></svg>
+            </div>
+
+            <!-- Body at bottom -->
+            <div class="cap-body">
+              <span class="cap-label font-mono-custom">Capabilities</span>
+              <h4 class="cap-title font-display">{{ card.line1 }}<br>{{ card.line2 }}</h4>
+              <ul class="cap-tags">
+                @for (tag of card.previewTags; track tag) {
+                  <li class="font-mono-custom">{{ tag }}</li>
+                }
+              </ul>
+            </div>
+
+          </div>
+        }
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Capability card expanded overlay — always in DOM, GSAP controls opacity -->
+<div class="wid-backdrop" #widBackdrop (click)="closeCard()" aria-modal="true" role="dialog">
+  <div class="wid-expanded" #widExpanded (click)="$event.stopPropagation()">
+
+    @if (activeCard()) {
+      <!-- Crosshatch pattern -->
+      <div class="wexp-pattern" aria-hidden="true"></div>
+
+      <!-- Top-left corner index -->
+      <div class="wexp-corner wexp-tl" aria-hidden="true">
+        <span class="wexp-rank font-display">{{ activeCard()!.num }}</span>
+        <svg width="10" height="10" viewBox="0 0 10 10">
+          <polygon points="5,0 10,5 5,10 0,5" fill="var(--accent)" opacity="0.6"/>
+        </svg>
+      </div>
+
+      <!-- Close button -->
+      <button class="wexp-close font-mono-custom" (click)="closeCard()" aria-label="Close">&#x2715;</button>
+
+      <!-- Bottom-right corner index (rotated 180) -->
+      <div class="wexp-corner wexp-br" aria-hidden="true">
+        <span class="wexp-rank font-display">{{ activeCard()!.num }}</span>
+        <svg width="10" height="10" viewBox="0 0 10 10">
+          <polygon points="5,0 10,5 5,10 0,5" fill="var(--accent)" opacity="0.6"/>
+        </svg>
+      </div>
+
+      <!-- Scrollable body -->
+      <div class="wexp-body">
+        <span class="wexp-label font-mono-custom">Capabilities</span>
+        <h3 class="wexp-title font-display">{{ activeCard()!.title }}</h3>
+        <p class="wexp-desc">{{ activeCard()!.desc }}</p>
+        <div class="wexp-divider"></div>
+        <ul class="wexp-tags">
+          @for (tag of activeCard()!.tags; track tag) {
+            <li class="font-mono-custom">{{ tag }}</li>
+          }
+        </ul>
+      </div>
+    }
+
+  </div>
+</div>
