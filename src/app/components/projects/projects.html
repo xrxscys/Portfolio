@@ -13,19 +13,15 @@
 
           <!-- Screenshot panel -->
           <div class="project-screenshot">
-
             @if (project.screenshots?.length) {
-
               <img
                 class="shot-img"
                 [class.fading]="fadingOut[project.num]"
                 [src]="project.screenshots![currentIndex[project.num]]"
                 [alt]="project.name + ' screenshot'"
               />
-
               <div class="shot-nav">
                 <button class="shot-btn font-mono-custom" (click)="prev(project)" aria-label="Previous">&#8592;</button>
-
                 <div class="shot-dots">
                   @for (shot of project.screenshots!; track $index) {
                     <button
@@ -36,15 +32,12 @@
                     ></button>
                   }
                 </div>
-
                 <button class="shot-btn font-mono-custom" (click)="next(project)" aria-label="Next">&#8594;</button>
               </div>
-
             } @else {
               <div class="screenshot-pattern" aria-hidden="true"></div>
               <span class="screenshot-label font-mono-custom">Screenshot</span>
             }
-
           </div>
 
           <!-- Content panel -->
@@ -70,6 +63,13 @@
 
             <p class="project-desc">{{ project.description }}</p>
 
+            <button class="view-details font-mono-custom" (click)="openDetail(project)">
+              What I built
+              <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true">
+                <polygon points="5,0 10,5 5,10 0,5" fill="var(--accent)" opacity="0.8"/>
+              </svg>
+            </button>
+
           </div>
 
         </div>
@@ -78,3 +78,64 @@
     </div>
   </div>
 </section>
+
+<!-- Detail overlay — always in DOM, GSAP controls visibility -->
+<div class="proj-backdrop" #projBackdrop (click)="closeDetail()" aria-modal="true" role="dialog">
+  <div class="proj-expanded" #projExpanded (click)="$event.stopPropagation()">
+
+    @if (activeProject()) {
+      <div class="proj-pattern" aria-hidden="true"></div>
+
+      <!-- Corner TL -->
+      <div class="proj-corner proj-tl" aria-hidden="true">
+        <span class="proj-corner-num font-display">{{ activeProject()!.num }}</span>
+        <svg width="10" height="10" viewBox="0 0 10 10">
+          <polygon points="5,0 10,5 5,10 0,5" fill="var(--accent)" opacity="0.6"/>
+        </svg>
+      </div>
+
+      <!-- Close -->
+      <button class="proj-close font-mono-custom" (click)="closeDetail()" aria-label="Close">&#x2715;</button>
+
+      <!-- Corner BR -->
+      <div class="proj-corner proj-br" aria-hidden="true">
+        <span class="proj-corner-num font-display">{{ activeProject()!.num }}</span>
+        <svg width="10" height="10" viewBox="0 0 10 10">
+          <polygon points="5,0 10,5 5,10 0,5" fill="var(--accent)" opacity="0.6"/>
+        </svg>
+      </div>
+
+      <!-- Body -->
+      <div class="proj-body">
+        <span class="proj-label font-mono-custom">What I Built</span>
+        <h3 class="proj-title font-display">{{ activeProject()!.name }}</h3>
+
+        <div class="proj-meta">
+          <span class="proj-role font-mono-custom">{{ activeProject()!.detail.role }}</span>
+          <span class="proj-meta-sep" aria-hidden="true"></span>
+          <span class="proj-period font-mono-custom">{{ activeProject()!.detail.period }}</span>
+        </div>
+
+        <div class="proj-divider"></div>
+
+        <ul class="proj-bullets">
+          @for (c of activeProject()!.detail.contributions; track c) {
+            <li class="proj-bullet">
+              <svg width="6" height="6" viewBox="0 0 6 6" aria-hidden="true" class="bullet-icon">
+                <polygon points="3,0 6,3 3,6 0,3" fill="var(--accent)" opacity="0.7"/>
+              </svg>
+              <span>{{ c }}</span>
+            </li>
+          }
+        </ul>
+
+        <div class="proj-tags-row">
+          @for (tag of activeProject()!.tags; track tag) {
+            <span class="proj-tag font-mono-custom">{{ tag }}</span>
+          }
+        </div>
+      </div>
+    }
+
+  </div>
+</div>
