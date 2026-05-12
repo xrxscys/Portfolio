@@ -1,6 +1,6 @@
 .skills-table {
   margin-top: 4rem;
-  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
 
 .skill-row {
@@ -8,7 +8,10 @@
   grid-template-columns: 1fr;
   gap: 1.25rem;
   padding: 2rem 0;
-  border-bottom: 1px solid var(--border);
+}
+
+.skill-row + .skill-row {
+  border-top: 1px solid var(--border);
 }
 
 @media (min-width: 768px) {

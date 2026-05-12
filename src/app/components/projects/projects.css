@@ -47,7 +47,12 @@
   height: 100%;
   object-fit: cover;
   object-position: top;
-  transition: opacity 0.18s ease;
+  filter: brightness(0.88);
+  transition: opacity 0.18s ease, filter 0.3s ease;
+}
+
+.shot-img:hover {
+  filter: brightness(1);
 }
 
 .shot-img.fading {
