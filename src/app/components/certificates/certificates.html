@@ -1,0 +1,48 @@
+<section id="certificates" class="section-pad">
+  <div class="max-w-7xl mx-auto px-6 lg:px-12">
+
+    <div class="section-header reveal">
+      <span class="section-num font-mono-custom">05</span>
+      <h2 class="section-title font-display">Certificates</h2>
+    </div>
+
+    <div class="cert-grid">
+      @for (cert of certificates; track cert.num) {
+        <div class="cert-card card reveal">
+
+          <div class="cert-image">
+            @if (cert.image) {
+              <img class="cert-img" [src]="cert.image" [alt]="cert.name" />
+            } @else {
+              <div class="cert-pattern" aria-hidden="true"></div>
+              <span class="cert-placeholder-label font-mono-custom">Certificate</span>
+            }
+          </div>
+
+          <div class="cert-body">
+            <span class="cert-num font-mono-custom">{{ cert.num }}</span>
+            <h3 class="cert-name font-display">{{ cert.name }}</h3>
+            <p class="cert-meta font-mono-custom">{{ cert.issuer }} | {{ cert.date }}</p>
+
+            @if (cert.certificateNumber) {
+              <p class="cert-id font-mono-custom">ID {{ cert.certificateNumber }}</p>
+            }
+
+            <div class="cert-links">
+              @if (cert.certificateUrl) {
+                <a class="cert-link font-mono-custom" [href]="cert.certificateUrl" target="_blank" rel="noopener">
+                  View Certificate
+                  <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true">
+                    <polygon points="5,0 10,5 5,10 0,5" fill="var(--accent)" opacity="0.8"/>
+                  </svg>
+                </a>
+              }
+            </div>
+          </div>
+
+        </div>
+      }
+    </div>
+
+  </div>
+</section>

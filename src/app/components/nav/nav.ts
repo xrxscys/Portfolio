@@ -14,11 +14,12 @@ export class Nav implements OnInit {
   activeSection = 'hero';
 
   navItems = [
-    { id: 'about',      label: 'About' },
-    { id: 'experience', label: 'Experience' },
-    { id: 'projects',   label: 'Projects' },
-    { id: 'skills',     label: 'Skills' },
-    { id: 'contact',    label: 'Contact' },
+    { id: 'about',        label: 'About' },
+    { id: 'experience',   label: 'Experience' },
+    { id: 'projects',     label: 'Projects' },
+    { id: 'skills',       label: 'Skills' },
+    { id: 'certificates', label: 'Certificates' },
+    { id: 'contact',      label: 'Contact' },
   ];
 
   ngOnInit() {

@@ -40,6 +40,11 @@ export class Skills implements AfterViewInit, OnDestroy {
     },
     {
       num: '06',
+      label: 'Automation & Integrations',
+      skills: ['n8n', 'Workflow Automation', 'Webhooks', 'REST API Integration', 'Google Sheets API', 'Gmail API', 'Discord Webhooks', 'Semaphore SMS API'],
+    },
+    {
+      num: '07',
       label: 'Workflow',
       skills: ['Git', 'Jira', 'Trello', 'Agile / Scrum', 'Kanban'],
     },
