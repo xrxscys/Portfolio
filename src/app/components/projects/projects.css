@@ -5,6 +5,20 @@
   gap: 1.5rem;
 }
 
+.projects-group-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  padding-bottom: 0.75rem;
+}
+
+.projects-group-label:not(:first-child) {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
 .project-card {
   display: grid;
   grid-template-columns: 1fr;

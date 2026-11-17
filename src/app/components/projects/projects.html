@@ -8,7 +8,10 @@
 
     <div class="projects-list">
 
-      @for (project of projects; track project.num) {
+      @for (project of projects; track project.num; let i = $index) {
+        @if (isGroupStart(i)) {
+          <div class="projects-group-label font-mono-custom reveal">{{ groupLabel(project.category) }}</div>
+        }
         <div class="project-card card reveal">
 
           <!-- Screenshot panel -->

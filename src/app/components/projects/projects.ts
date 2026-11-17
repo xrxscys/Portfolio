@@ -17,11 +17,17 @@ interface Project {
   name: string;
   subtitle: string;
   status?: string;
+  category: 'client' | 'side';
   tags: string[];
   description: string;
   screenshots?: string[];
   detail: ProjectDetail;
 }
+
+const GROUP_LABEL: Record<Project['category'], string> = {
+  client: 'Selected Client Work',
+  side: 'Side Projects & Automation',
+};
 
 @Component({
   selector: 'app-projects',
@@ -47,6 +53,7 @@ export class Projects implements AfterViewInit, OnDestroy {
       name: 'Ulta Hub',
       subtitle: 'CSAM Philippines, Inc.',
       status: 'In Development',
+      category: 'client',
       tags: ['Angular', 'ASP.NET Core', 'SignalR', 'Azure'],
       description: `Ulta Hub is a workforce management platform built for companies that operate through Virtual Assistants. It gives teams a centralized place to manage schedules, track time, monitor remote employees in real time, and communicate — all within a structured, role-based environment. Designed for multi-tenant use, each business operates independently within the platform with its own modules, roles, and workflows.`,
       screenshots: Array.from({ length: 10 }, (_, i) =>
@@ -69,6 +76,7 @@ export class Projects implements AfterViewInit, OnDestroy {
       num: '02',
       name: 'EduOps',
       subtitle: 'University of San Carlos',
+      category: 'client',
       tags: ['React', 'Node.js', 'Prisma', 'MySQL'],
       description: `EduOps is a school management system built for an actual institutional client. It handles the core administrative workflows of a school — student finances, enrollment, grading, and notifications — in one place. Faculty and administrators get a system built around how schools actually operate, replacing the fragmented manual processes that slow down every academic period.`,
       screenshots: Array.from({ length: 9 }, (_, i) =>
@@ -86,6 +94,52 @@ export class Projects implements AfterViewInit, OnDestroy {
         ],
       },
     },
+    // Hidden until the order automation project is updated — uncomment to restore.
+    /* {
+      num: '03',
+      name: 'Automated Order Intake & Fulfillment System',
+      subtitle: 'Personal Project',
+      category: 'side',
+      tags: ['n8n', 'Google Sheets API', 'Gmail', 'Semaphore SMS API', 'Discord Webhooks'],
+      description: `Two connected n8n workflows that run a small business's order pipeline end to end. An intake workflow runs every form submission through honeypot bot detection and recency-based duplicate checking before gating it behind a manual staff approval step in Gmail; a separate status workflow watches the order-tracking sheet and automatically fires the right customer notification — email receipt or SMS — the moment payment or fulfillment status changes. Every key checkpoint also posts to a Discord webhook, giving an audit trail without needing to open n8n.`,
+      screenshots: [
+        '/work/order-automation-01.png',
+      ],
+      detail: {
+        role: 'Automation Builder',
+        period: '2026',
+        contributions: [
+          'Built a honeypot-based bot filter and a recency-windowed duplicate check that tells an accidental double-click apart from a genuine repeat order.',
+          'Gated every submission behind a manual Gmail Send-and-Wait approval step, so nothing reaches the order sheet without human sign-off.',
+          'Built a second workflow that polls the order sheet for status changes and branches by which column changed — payment vs. fulfillment.',
+          'Integrated the Semaphore SMS API via a raw HTTP Request node (no native n8n node exists for it) for pickup-ready texts, alongside Gmail for receipt emails.',
+          'Added Discord webhook logging at every key checkpoint — blocked bots, saved orders, sent SMS, sent emails — for an audit trail outside of n8n, and a sent-flag column on each row to prevent duplicate notifications on the next poll.',
+        ],
+      },
+    }, */
+    {
+      num: '03',
+      name: 'AI Facebook Post Assistant',
+      subtitle: "Nova's Farm-Fresh Eggs",
+      category: 'side',
+      tags: ['n8n', 'Claude API', 'OpenAI Images', 'Telegram Bot API', 'Facebook Graph API'],
+      description: `A Telegram bot that works like a copywriter and designer on call for a small family egg farm in Cebu. The owner sends a plain-language message like "Father's Day post, mix of both, with image" and the bot writes a ready-to-post caption in the brand's warm, bilingual Bisaya/English voice, designs a matching poster with the real logo, and shows a preview. Nothing reaches the Facebook Page until the owner taps Approve — and change requests are just typed back into the chat, as many rounds as needed.`,
+      screenshots: Array.from({ length: 5 }, (_, i) =>
+        `/work/fb-assistant-${String(i + 1).padStart(2, '0')}.png`
+      ),
+      detail: {
+        role: 'Automation Builder',
+        period: '2026',
+        contributions: [
+          'Built natural-language intake: Claude turns a casual chat message into a structured JSON brief (topic, tone, language, image yes/no), validated in code with sensible defaults.',
+          "Wrote brand-voice system prompts by studying the page's past posts — covering bilingual language modes, pronoun use, hook styles, and what to avoid — so captions read like the owners wrote them.",
+          'Generated on-brand graphics by having Claude write an art-direction prompt from the finished caption, then rendering it with OpenAI gpt-image-2 using the real logo as a reference image.',
+          'Built a chat-native revision loop n8n doesn\'t support out of the box: the paused run stores its resume URL in a Data Table keyed by chat, and the next Telegram message wakes it with the change notes.',
+          'Used the same table as a per-chat state machine (drafting → approval → revision) to allow one draft at a time, support /cancel at any stage, and re-check ownership so a cancelled draft can never be published.',
+          'Locked the bot to whitelisted Telegram users with requester-only approval — cutting post creation down to one message and one tap, with drafts ready in 30 seconds to 2 minutes.',
+        ],
+      },
+    },
   ];
 
   ngAfterViewInit() {
@@ -95,6 +149,16 @@ export class Projects implements AfterViewInit, OnDestroy {
     });
     setupReveal(this.el.nativeElement);
     ScrollTrigger.refresh();
+  }
+
+  // ── Grouping ──
+
+  isGroupStart(index: number): boolean {
+    return index === 0 || this.projects[index].category !== this.projects[index - 1].category;
+  }
+
+  groupLabel(category: Project['category']): string {
+    return GROUP_LABEL[category];
   }
 
   // ── Image switcher ──
